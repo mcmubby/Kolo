@@ -14,22 +14,32 @@ namespace MyKoloDAL.Core.FileProcessing.ExcelFileProcessing
            {
 
                 //Create new Excel WorkBook document. 
-                //The default file format is XLSX, but we can override that for legacy support
-                WorkBook xlsWorkbook = WorkBook.Create(ExcelFileFormat.XLS);
-                xlsWorkbook.Metadata.Author = "SBSC";
+                this.dbFile = WorkBook.Create(ExcelFileFormat.XLS);
+                dbFile.Metadata.Author = "SBSC";
+
                 //Add a blank WorkSheet
-                WorkSheet xlsSheet = xlsWorkbook.CreateWorkSheet("new_sheet");
+                WorkSheet savingsTable = dbFile.CreateWorkSheet("Saving");
+                WorkSheet expenseTable = dbFile.CreateWorkSheet("Expense");
+
                 //Add data and styles to the new worksheet
-                xlsSheet["A1"].Value = "Hello World";
-                xlsSheet["A2"].Style.BottomBorder.SetColor("#ff6600");
-                xlsSheet["A2"].Style.BottomBorder.Type = IronXL.Styles.BorderType.Double;
+                savingsTable["A1"].Value = "Id";
+                savingsTable["B1"].Value = "CreatedAt";
+                savingsTable["C1"].Value = "Amount";
+                savingsTable["D1"].Value = "Description";
+
+                expenseTable["A1"].Value = "Id";
+                expenseTable["B1"].Value = "CreatedAt";
+                expenseTable["C1"].Value = "Amount";
+                expenseTable["D1"].Value = "Description";
+                
+
                 //Save the excel file
-                xlsWorkbook.SaveAs("NewExcelFile.xls");
+                dbFile.SaveAs(Path.Combine(folderName, dbFileName));
 
            }
 
         }
-        public bool ReadToFile()
+        public bool ReadFromFile()
         {
             throw new System.NotImplementedException();
         }
